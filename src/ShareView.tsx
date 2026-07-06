@@ -13,6 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import FlightTakeoffRounded from '@mui/icons-material/FlightTakeoffRounded';
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import MapRounded from '@mui/icons-material/MapRounded';
 import PublicRounded from '@mui/icons-material/PublicRounded';
 import RouteOutlined from '@mui/icons-material/RouteOutlined';
@@ -21,7 +22,9 @@ import SwapCallsRounded from '@mui/icons-material/SwapCallsRounded';
 import type { Flight } from './types';
 import { decodeShare } from './lib/share';
 import { filterFlights } from './lib/filter';
+import { goHome } from './lib/nav';
 import { BRAND, MONO, OUTLINE_BTN_SX } from './theme';
+import AboutDialog from './components/AboutDialog';
 import FlightList from './components/FlightList';
 import MapView from './components/MapView';
 import StatsPanel from './components/StatsPanel';
@@ -42,6 +45,7 @@ export default function ShareView({ version, token }: { version: string; token: 
   const [query, setQuery] = useState('');
   const [view, setView] = useState<'map' | 'globe'>('map');
   const [showRealPaths, setShowRealPaths] = useState(true);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   useEffect(() => {
     let live = true;
@@ -97,7 +101,16 @@ export default function ShareView({ version, token }: { version: string; token: 
     <Box sx={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
       <AppBar position="static" elevation={0} sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Toolbar sx={{ gap: 1.5, minHeight: 60 }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack
+            component="a"
+            href="/"
+            onClick={goHome}
+            aria-label="Home"
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer', '&:hover': { opacity: 0.85 } }}
+          >
             <Box
               component="img"
               src="/branding/flightmap-mark-white.svg"
@@ -132,9 +145,20 @@ export default function ShareView({ version, token }: { version: string; token: 
                 {view === 'map' ? <PublicRounded fontSize="small" /> : <MapRounded fontSize="small" />}
               </IconButton>
             </Tooltip>
+            <Tooltip title="About">
+              <IconButton
+                size="small"
+                aria-label="About Flightmap"
+                onClick={() => setInfoOpen(true)}
+                sx={OUTLINE_BTN_SX}
+              >
+                <InfoOutlined fontSize="small" />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Toolbar>
       </AppBar>
+      <AboutDialog open={infoOpen} onClose={() => setInfoOpen(false)} />
 
       <Box
         sx={{

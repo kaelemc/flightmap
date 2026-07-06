@@ -21,11 +21,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
 import FlightTakeoffRounded from '@mui/icons-material/FlightTakeoffRounded';
-import GitHub from '@mui/icons-material/GitHub';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import InputAdornment from '@mui/material/InputAdornment';
 import IosShareRounded from '@mui/icons-material/IosShareRounded';
-import Link from '@mui/material/Link';
 import MapRounded from '@mui/icons-material/MapRounded';
 import PublicRounded from '@mui/icons-material/PublicRounded';
 import RouteOutlined from '@mui/icons-material/RouteOutlined';
@@ -40,8 +38,10 @@ import { useFlights, useSettings } from './store';
 import { fetchRealPath } from './lib/tracks';
 import { filterFlights } from './lib/filter';
 import { encodeShare, shareUrl } from './lib/share';
+import { goHome } from './lib/nav';
 import { useShiftKey } from './lib/useShiftKey';
 import { BRAND, MONO, OUTLINE_BTN_SX } from './theme';
+import AboutDialog from './components/AboutDialog';
 import FlightEditorPanel from './components/FlightEditorPanel';
 import FlightList from './components/FlightList';
 import MapView from './components/MapView';
@@ -221,7 +221,16 @@ export default function App() {
         sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
         <Toolbar sx={{ gap: 1.5, minHeight: 60 }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack
+            component="a"
+            href="/"
+            onClick={goHome}
+            aria-label="Home"
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer', '&:hover': { opacity: 0.85 } }}
+          >
             <Box
               component="img"
               src="/branding/flightmap-mark-white.svg"
@@ -631,47 +640,7 @@ export default function App() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={infoOpen} onClose={() => setInfoOpen(false)} fullWidth maxWidth="xs">
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 1 }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Box
-              component="img"
-              src="/branding/flightmap-mark-white.svg"
-              alt=""
-              sx={{ height: 22, width: 'auto', display: 'block' }}
-            />
-            <Typography
-              sx={{ fontFamily: BRAND, fontWeight: 600, fontSize: 21, lineHeight: 1, letterSpacing: '-0.01em' }}
-            >
-              flightmap
-            </Typography>
-          </Stack>
-          <IconButton aria-label="Close" onClick={() => setInfoOpen(false)} size="small">
-            <CloseRounded fontSize="small" />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ mb: 0.75 }}>
-            A free and open-source flight log. Fully client-side.
-          </DialogContentText>
-          <DialogContentText sx={{ mb: 2 }}>
-            By{' '}
-            <Link href="https://ls.cd" target="_blank" rel="noreferrer" sx={{ color: 'primary.main' }}>
-              Kaelem Chandra
-            </Link>.
-          </DialogContentText>
-          <Button
-            component="a"
-            href="https://github.com/kaelemc/flightmap"
-            target="_blank"
-            rel="noreferrer"
-            startIcon={<GitHub />}
-            sx={{ ...OUTLINE_BTN_SX, px: 1.5, py: 0.5, color: 'text.primary' }}
-          >
-            GitHub
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <AboutDialog open={infoOpen} onClose={() => setInfoOpen(false)} />
     </Box>
   );
 }
