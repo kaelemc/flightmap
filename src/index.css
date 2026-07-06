@@ -1,0 +1,114 @@
+:root {
+  /* dark only — native pickers, scrollbars and form controls follow */
+  color-scheme: dark;
+}
+
+/* thin, themed scrollbars everywhere — Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f3f transparent;
+}
+
+/* thin, themed scrollbars everywhere — WebKit/Blink */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #3f3f3f;
+  border-radius: 0;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #525252;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.leaflet-container {
+  background: #000000;
+  font-family: inherit;
+}
+
+/* The selected route — the one accent, kaelem.blog's Nokia blue. */
+.active-route {
+  stroke-dasharray: 7 9;
+  animation: route-flow 1.4s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(0, 90, 255, 0.75));
+}
+
+@keyframes route-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .active-route {
+    animation: none;
+  }
+}
+
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: #6b6b6b !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px !important;
+}
+
+.leaflet-control-attribution a {
+  color: #a3a3a3 !important;
+}
+
+.leaflet-control-zoom a {
+  background: #0a0a0a !important;
+  color: #f5f5f5 !important;
+  border-color: #3f3f3f !important;
+  border-radius: 0 !important;
+}
+
+.leaflet-tooltip.fm-tip {
+  background: #0a0a0a;
+  border: 1px solid #3f3f3f;
+  border-radius: 0;
+  color: #f5f5f5;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  box-shadow: none;
+}
+
+.leaflet-tooltip.fm-tip::before {
+  border-top-color: #3f3f3f;
+}
+
+/* route "flown N times" count as a circular badge on the great-circle midpoint */
+.leaflet-tooltip.fm-count-tip {
+  box-sizing: border-box;
+  height: 18px;
+  min-width: 18px;
+  padding: 0 4px;
+  background: #0a0a0a;
+  border: 1px solid #3f3f3f;
+  border-radius: 999px;
+  box-shadow: none;
+  color: #f5f5f5;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+}
+
+.leaflet-tooltip.fm-count-tip::before {
+  display: none;
+}
+
