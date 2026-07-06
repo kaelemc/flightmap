@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import cesium from 'vite-plugin-cesium';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // OpenSky's API only allows CORS from its own origin, so the dev/preview
 // server proxies it — the app calls /opensky/* same-origin.
 const openskyProxy = {
@@ -18,7 +20,7 @@ const openskyProxy = {
 };
 
 export default defineConfig({
-  plugins: [react(), cesium()],
+  plugins: [react(), cesium(), cloudflare()],
   server: { proxy: openskyProxy },
   preview: { proxy: openskyProxy },
   build: {
